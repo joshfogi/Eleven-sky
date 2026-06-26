@@ -1,76 +1,47 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>11 Sky - Random Video Chat</title>
-    <link rel="stylesheet" href="style.css">
+    <title>11 Sky</title>
+    <style>
+        body { margin:0; background:#0a0a14; color:#00ffcc; font-family:Arial; overflow:hidden; }
+        .header { text-align:center; padding:15px; font-size:28px; background:#111; }
+        .video-grid { display:grid; grid-template-columns:1fr 1fr; height:80vh; gap:10px; padding:10px; }
+        video { width:100%; height:100%; object-fit:cover; border-radius:12px; background:black; }
+        .caption { position:fixed; bottom:120px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.8); padding:15px 25px; border-radius:30px; max-width:80%; text-align:center; font-size:18px; }
+        .controls { position:fixed; bottom:30px; left:50%; transform:translateX(-50%); display:flex; gap:20px; background:rgba(20,20,35,0.95); padding:15px 25px; border-radius:50px; }
+        button { font-size:30px; width:60px; height:60px; border:none; background:#00ff9d; color:#000; border-radius:50%; }
+    </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">11 <span>Sky</span></div>
+    <div class="header">11 <span style="color:#00ff9d">Sky</span></div>
+    
+    <div class="video-grid">
+        <video id="local" autoplay playsinline muted></video>
+        <video id="remote" autoplay playsinline></video>
     </div>
 
-    <div class="container">
-        <div class="video-grid">
-            <video id="localVideo" autoplay playsinline muted></video>
-            <video id="remoteVideo" autoplay playsinline></video>
-        </div>
-    </div>
+    <div class="caption" id="caption">Demo Mode - Open two tabs to test</div>
 
-    <!-- Caption -->
-    <div class="caption" id="caption">Waiting for stranger...</div>
-
-    <!-- Text Chat -->
-    <div class="chat-panel">
-        <div id="messages" class="messages"></div>
-        <input type="text" id="chatInput" placeholder="Type a message...">
-    </div>
-
-    <!-- Bottom Controls (4 icons) -->
     <div class="controls">
-        <button onclick="toggleMute()" id="micBtn">🎤</button>
-        <button onclick="toggleVideo()" id="camBtn">📹</button>
-        <button onclick="flipCamera()">🔄</button>
+        <button onclick="toggleMute()">🎤</button>
+        <button onclick="toggleVideo()">📹</button>
+        <button onclick="startChat()">Start</button>
         <button onclick="openSettings()">⚙️</button>
     </div>
 
-    <!-- Settings Modal -->
-    <div id="settingsModal" class="modal">
-        <div class="modal-content">
-            <h2>Settings</h2>
-            <button onclick="closeSettings()" class="close">✕</button>
-            
-            <div class="setting-item">
-                <label>Video Quality</label>
-                <select id="resolution">
-                    <option value="720">720p</option>
-                    <option value="1080" selected>1080p (High)</option>
-                </select>
-            </div>
-            
-            <div class="setting-item">
-                <label>Theme</label>
-                <button onclick="toggleTheme()">🌗 Toggle Dark/Light</button>
-            </div>
-            
-            <div class="setting-item">
-                <label>AI Transcription</label>
-                <button onclick="toggleTranscription()">On/Off</button>
-            </div>
-            
-            <div class="setting-item">
-                <button onclick="startRecording()">🎙️ Start Recording</button>
-            </div>
-            
-            <div class="setting-item">
-                <button onclick="logout()">🚪 Leave Chat</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-    <script src="script.js"></script>
+    <script>
+        let localStream;
+        async function startChat() {
+            localStream = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
+            document.getElementById('local').srcObject = localStream;
+            alert("Camera started! (Demo Mode)");
+        }
+        function toggleMute() { alert("Mute toggled"); }
+        function toggleVideo() { alert("Video toggled"); }
+        function openSettings() { alert("Settings:\nAI Transcription: ON\nResolution: 1080p"); }
+    </script>
 </body>
 </html>
+
