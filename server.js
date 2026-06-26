@@ -13,7 +13,7 @@ io.on('connection', (socket) => {
     console.log('User connected:', socket.id);
 
     socket.on('findMatch', () => {
-        if (waitingUsers.length > 0) {
+       if (waitingUsers.length > 0) {
             const partner = waitingUsers.pop();
             const room = socket.id + partner.id;
             socket.join(room);
