@@ -1,37 +1,75 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>11 Sky - Random Video Chat</title>
-    
-    <!-- Link to CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="header">
+        <div class="logo">11 <span>Sky</span></div>
+    </div>
+
     <div class="container">
         <div class="video-grid">
-            <!-- Your own video -->
             <video id="localVideo" autoplay playsinline muted></video>
-            
-            <!-- Stranger's video -->
             <video id="remoteVideo" autoplay playsinline></video>
         </div>
     </div>
 
-    <!-- Live Transcription -->
-    <div class="caption" id="caption">Waiting for stranger to connect...</div>
+    <!-- Caption -->
+    <div class="caption" id="caption">Waiting for stranger...</div>
 
-    <!-- Bottom Controls -->
-    <div class="controls">
-        <button onclick="startChat()">🎥 Start Chat</button>
-        <button onclick="nextStranger()">⏭️ Next Stranger</button>
-        <button onclick="toggleMute()">🎤 Mute</button>
-        <button onclick="toggleVideo()">📹 Video</button>
-        <button onclick="openSettings()">⚙️ Settings</button>
+    <!-- Text Chat -->
+    <div class="chat-panel">
+        <div id="messages" class="messages"></div>
+        <input type="text" id="chatInput" placeholder="Type a message...">
     </div>
 
-    <!-- Socket.IO CDN -->
+    <!-- Bottom Controls (4 icons) -->
+    <div class="controls">
+        <button onclick="toggleMute()" id="micBtn">🎤</button>
+        <button onclick="toggleVideo()" id="camBtn">📹</button>
+        <button onclick="flipCamera()">🔄</button>
+        <button onclick="openSettings()">⚙️</button>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <h2>Settings</h2>
+            <button onclick="closeSettings()" class="close">✕</button>
+            
+            <div class="setting-item">
+                <label>Video Quality</label>
+                <select id="resolution">
+                    <option value="720">720p</option>
+                    <option value="1080" selected>1080p (High)</option>
+                </select>
+            </div>
+            
+            <div class="setting-item">
+                <label>Theme</label>
+                <button onclick="toggleTheme()">🌗 Toggle Dark/Light</button>
+            </div>
+            
+            <div class="setting-item">
+                <label>AI Transcription</label>
+                <button onclick="toggleTranscription()">On/Off</button>
+            </div>
+            
+            <div class="setting-item">
+                <button onclick="startRecording()">🎙️ Start Recording</button>
+            </div>
+            
+            <div class="setting-item">
+                <button onclick="logout()">🚪 Leave Chat</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script src="script.js"></script>
 </body>
